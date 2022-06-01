@@ -1,0 +1,114 @@
+
+// shuffle images
+//simply call the plugin like this:
+$(".shuffle-me").shuffleImages({
+   trigger: "imageMouseMove",     // Choose which type of trigger you want here. Available options are "imageMouseMove", "imageHover", "documentMouseMove", and "documentScroll". "imageMouseMove" will trigger when your mouse over the image and move your cursor. "imageHover" will trigger when you mouse over without moving your cursor. "documentMouseMove" will trigger when cursor is being moved anywhere on the page. "documentScroll" will trigger when you scroll the page. The default value is "imageMouseMove"
+   triggerTarget: false,          // For "imageMouseMove", and "imageHover" only, you can set which element to trigger the image shuffle when mouse over. For example, if you want a container ".main" to trigger an image shuffle instead of the image itself, put $(".main") for this option. Default value is false.
+   mouseMoveTrigger: 50,          // For "imageMouseMove" only, you can set how many pixels you have to move in order to trigger one image shuffle. The lower the faster. The default value is 50.
+   hoverTrigger: 200,             // For "imageHover" only, you can set how long you have to hover the image until it shuffles to other images. The option accepts milliseconds without unit. The default value is 200.
+   scrollTrigger: 100,          // For "documentScroll" only, you can set how many pixels you have to scroll to see the image shuffle. The default value is 100.
+   target: "> img"              // In case you have a complete HTML structure, you can set your own custom selector to your images here. The default value is "> img" which means images that are directly under the "shuffle-me" will be used to shuffle.
+ });
+//shuffle image
+<body>
+  ..
+  <div class="shuffle-me">
+    <img src="images/1.jpg">
+    <img src="images/2.jpg">
+    <img src="images/3.jpg">
+    ..
+  </div>
+  ..
+</body>
+// image selection
+<template>
+  <div>
+    <vue-select-image
+      :dataImages="dataImages"
+      @onselectimage="onSelectImage"
+      :is-multiple="true"
+      :selectedImages="initialSelected"
+      @onselectmultipleimage="onSelectMultipleImage"
+    >
+    </vue-select-image>
+
+    <div v-if="selectedImages.length > 0">
+      <div>{{ selectedImages.length }} images selected:</div>
+      <div v-for="(image, idx) in selectedImages" :key="idx">
+        {{ image.alt }}
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import VueSelectImage from "vue-select-image";
+import "vue-select-image/dist/vue-select-image.css";
+
+export default {
+  name: "SelectImage",
+  data() {
+    return {
+      selectedImages: [],
+      initialSelected: [],
+      dataImages: [
+        {
+          id: "1",
+          src: "https://unsplash.it/150?random=1",
+          alt: "nightprogrammer.com image 1",
+        },
+        {
+          id: "2",
+          src: "https://unsplash.it/150?random=2",
+          alt: "nightprogrammer.com image 2",
+        },
+        {
+          id: "3",
+          src: "https://unsplash.it/150?random=3",
+          alt: "nightprogrammer.com image 3",
+        },
+        {
+          id: "4",
+          src: "https://unsplash.it/150?random=4",
+          alt: "nightprogrammer.com image 4",
+        },
+        {
+          id: "5",
+          src: "https://unsplash.it/150?random=5",
+          alt: "nightprogrammer.com image 5",
+        },
+        {
+          id: "6",
+          src: "https://unsplash.it/150?random=6",
+          alt: "nightprogrammer.com image 6",
+        },
+      ],
+    };
+  },
+  methods: {
+    onSelectImage(img) {
+      alert(`Selected image: ${img.alt}`);
+    },
+    onSelectMultipleImage(images) {
+      this.selectedImages = images;
+    },
+  },
+  components: {
+    VueSelectImage,
+  },
+};
+</script>
+Code language: HTML, XML (xml)
+
+
+//image shown after selection 
+<p><input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+<p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+<p><img id="output" width="200" /></p>
+
+<script>
+var loadFile = function(event) {
+	var image = document.getElementById('output');
+	image.src = URL.createObjectURL(event.target.files[0]);
+};
+</script>
